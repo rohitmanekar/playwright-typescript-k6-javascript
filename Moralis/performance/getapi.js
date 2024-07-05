@@ -21,7 +21,7 @@ export default function () {
     const result = http.get(endpoint, params);
     console.log(result);
     check(result, {
-        'is status 200': (r) => r.status === 201,
+        'is status 200': (r) => r.status === 200,
         'contain status as synced ..': (r) => r.body.includes('SYNCED'),
     });
 }

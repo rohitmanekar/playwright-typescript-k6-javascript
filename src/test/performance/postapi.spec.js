@@ -1,14 +1,16 @@
+//@ts-ignore
 import http from 'k6/http';
-import {check} from 'k6';
+import { check } from 'k6';
+import { config } from '../../main/config/performance-config.js';
 
 export const options = {
-    vus: 1,
-    duration: '1s' ,
-}
- 
+    vus: config.performanceParams.vus,
+    duration: config.performanceParams.duration,
+};
+
 export default function () {
-    const endpoint = 'https://site1.moralis-nodes.com/eth/286e93da330b489796179bda0cd400a9';
-    const method = 'eth_blockNumber';
+    const endpoint = config.urls.nodesiteurl;
+    const method = config.apiMethods.method_blockNumber;
     const params = {
         headers: {
             'accept': 'application/json',
@@ -20,7 +22,7 @@ export default function () {
         id: 1,
         method,
     });
-    try{
+    try {
         const result = http.post(endpoint, payload, params);
         console.log(result);
         check(result, {
@@ -31,6 +33,4 @@ export default function () {
         console.error('Error making the API request:  ', error);
         throw error;
     }
-    
 }
-

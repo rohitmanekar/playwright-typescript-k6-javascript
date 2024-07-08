@@ -5,7 +5,7 @@ export const config = {
     },
     credentials: {
       username: 'rohitmanekar.work@gmail.com',
-      password: 'Rohit@1986',
+      password: '<your-password>',
     },
     walletinfo: {
       address: '0xff3879b8a363aed92a6eaba8f61f1a96a9ec3c1e',

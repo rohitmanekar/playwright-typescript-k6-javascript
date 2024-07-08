@@ -4,6 +4,11 @@ import { locators } from '../config/locators';
 export class APIKeyPage {
   constructor(private page: Page) {}
 
+  async gotoApiKeyPage() {
+    const url = "https://admin.moralis.io/api-keys";
+    await this.page.goto(url);
+  }
+
   async getAPIKey() {
     await this.page.click(locators.apiKeyPage.apiKeysTab);
     await this.page.click(locators.apiKeyPage.showHideButton);

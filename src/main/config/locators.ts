@@ -12,6 +12,7 @@ export const locators = {
       networkDropdown: 'select#select-network',
       createNodeButton2: '//button[text()="Create Node"]',
       site1NodeUrlInput: '//span[text()="Site" and text()="1"]/parent::div//input',
+      referSkip: '//button[text()="Skip"]',
     },
     apiKeyPage: {
       apiKeysTab: '//div[text()="API Keys"]',

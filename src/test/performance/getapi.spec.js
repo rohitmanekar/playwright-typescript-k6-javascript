@@ -1,3 +1,4 @@
+// @ts-ignore
 import http from 'k6/http';
 import { check } from 'k6';
 import { config } from '../../main/config/performance-config.js';

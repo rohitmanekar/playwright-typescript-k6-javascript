@@ -10,8 +10,9 @@ let browser: Browser;
 let context: any;
 let pageObj: Page;
 let nodeSite1Url: string;
+let authFile = 'src/main/config/auth.json';
 
-
+//setup method for initializing browser, context and page
 test.beforeAll(async () => {
     browser = await chromium.launch({ headless: false });
     context = await browser.newContext();
@@ -19,21 +20,23 @@ test.beforeAll(async () => {
     await pageObj.setDefaultTimeout(60000);
 });
 
-// Global teardown: runs once after all tests
+//teardown method for closing browser
 test.afterAll(async () => {
-    //const endpoint = nodeSite1Url;
-   // console.log('endpoint === ', nodeSite1Url)
-    await browser.close();
+   await browser.close();
 });
 
+/**
+ * Consists of the tests as a part of the task 1 assesment
+ */
 test.describe('Task 1 tests', () => {
+    //Logging to the Moralis Admin site
     test('Login to Moralis Admin', async () => {
         const loginPage = new LoginPage(pageObj);
-       // await loginPage.acceptCookies();
         const title = await loginPage.login(config.credentials.username, config.credentials.password);
         expect(title).toEqual('Moralis | The Ultimate Web3 Development Platform');
     });
 
+    //Test for getting the api key and validating it
     test('Get API Key', async () => {
         const apiKeyPage = new APIKeyPage(pageObj);
         apiKey = await apiKeyPage.getAPIKey();
@@ -41,6 +44,7 @@ test.describe('Task 1 tests', () => {
         expect(apiKey).not.toBeNull();
     });
 
+    //Test for getting the wallet NFTs
     test('Get Wallet NFTs', async () => {
         const endpoint = config.urls.nftApi(config.walletinfo.address, config.walletinfo.chain);
         const headers = {

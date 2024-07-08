@@ -8,7 +8,7 @@ export const config = {
   },
   credentials: {
     username: 'rohitmanekar.work@gmail.com',
-    password: 'Rohit@1986',
+    password: '<your-password>',
   },
   apiMethods: {
     method_blockNumber: 'eth_blockNumber',

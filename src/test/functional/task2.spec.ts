@@ -9,8 +9,6 @@ let apiKey: string;
 let browser: Browser;
 let context: any;
 let pageObj: Page;
-let nodeSite1Url: string;
-let authFile = 'src/main/config/auth.json';
 
 //setup method for initializing browser, context and page
 test.beforeAll(async () => {
@@ -28,7 +26,7 @@ test.afterAll(async () => {
 /**
  * Consists of the tests as a part of the task 1 assesment
  */
-test.describe('Task 1 tests', () => {
+test.describe('Task 2 tests', () => {
     //Logging to the Moralis Admin site
     test('Login to Moralis Admin', async () => {
         const loginPage = new LoginPage(pageObj);
@@ -45,7 +43,7 @@ test.describe('Task 1 tests', () => {
     });
 
     //Test for getting the wallet NFTs
-    test('Get Wallet NFTs', async () => {
+    test('Positive flow - Get Wallet NFTs', async () => {
         const endpoint = config.urls.nftApi(config.walletinfo.address, config.walletinfo.chain);
         const headers = {
             accept: 'application/json',
@@ -53,6 +51,20 @@ test.describe('Task 1 tests', () => {
             'X-API-Key': apiKey,
         };
         const result = await executeRpcGet(endpoint, headers);
-        expect(result).toBeDefined();
+        expect(result.body).toBeDefined();
+        expect(result.status).toBe(200);
+    });
+
+    //Test for getting the wallet NFTs
+    test('Negative flow - invalid address - Get Wallet NFTs', async () => {
+        const endpoint = config.urls.nftApi(config.walletinfo.address+'_incorrect', config.walletinfo.chain);
+        const headers = {
+            accept: 'application/json',
+            'content-type': 'application/json',
+            'X-API-Key': apiKey,
+        };
+        const result = await executeRpcGet(endpoint, headers);
+        expect(result.status).toBe(400);
+        expect(result.body.message).toMatch(/not a valid hex address/);
     });
 });

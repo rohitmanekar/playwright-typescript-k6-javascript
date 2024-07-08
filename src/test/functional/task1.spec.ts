@@ -39,25 +39,45 @@ test.describe.serial('Task 1 tests', () => {
     });
 
     // Getting the block number
-    test('Get Block Number', async () => {
+    test('Positive flow - Get Block Number', async () => {
         const endpoint = nodeSite1Url;
         const method = 'eth_blockNumber';
         const params: any[] = [];
         const result = await executeRpcPost(endpoint, method, params);
-        expect(result).toBeDefined();
+        expect(result.body).toBeDefined();
+        expect(result.status).toBe(200); 
+    });
+
+     // Getting the block number
+     test('Negative flow - Unauthorized Get Block Number', async () => {
+        const endpoint = nodeSite1Url+'88';
+        const method = 'eth_blockNumber';
+        const params: any[] = [];
+        const result = await executeRpcPost(endpoint, method, params);
+        expect(result.status).toBe(401); 
+        //expect(result.body).toHaveProperty('jsonrpc', '2.0');
     });
 
     //Getting block by number
-    test('Get Block by Number', async () => {
+    test('Positive flow - Get Block by Number', async () => {
         const endpoint = nodeSite1Url;
         const method = 'eth_getBlockByNumber';
         const params = ['latest', true];
         const result = await executeRpcPost(endpoint, method, params);
         expect(result).toBeDefined();
+        expect(result.status).toBe(200); 
+    });
+
+    test('Negative flow - Bad request - Get Block by Number', async () => {
+        const endpoint = nodeSite1Url;
+        const method = 'eth_getBlockByNumber_incorrect';
+        const params = ['latest', true];
+        const result = await executeRpcPost(endpoint, method, params);
+        expect(result.status).toBe(400); 
     });
 
     // Getting the transaction by Hash
-    test('Get the Transaction By Hash)', async () => {
+    test('Positive flow - Get the Transaction By Hash)', async () => {
         const endpoint = nodeSite1Url;
         const method = 'eth_getTransactionByHash';
         const params = [
@@ -65,5 +85,18 @@ test.describe.serial('Task 1 tests', () => {
         ];
         const result = await executeRpcPost(endpoint, method, params);
         expect(result).toBeDefined();
+        expect(result.status).toBe(200); 
+    });
+
+    test('Negative flow - incorrect hash - Get the Transaction By Hash)', async () => {
+        const endpoint = nodeSite1Url;
+        const method = 'eth_getTransactionByHash';
+        const params = [
+            "0xd4b2e80202cc55517c328412a7792772e1bdd925ac1a2120aeafe84316206ad3_incorrect"
+        ];
+        const result = await executeRpcPost(endpoint, method, params);
+        expect(result).toBeDefined();
+        expect(result.body.error).toHaveProperty('code', -32602);
+        expect(result.body.error.message).toMatch(/invalid argument 0/);
     });
 });

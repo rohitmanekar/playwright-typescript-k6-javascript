@@ -4,13 +4,11 @@ import { LoginPage } from '../../main/ui/LoginPage';
 import { config } from '../../main/config/functional-config';
 import { executeRpcPost } from '../../main/api/apiHelper';
 import { NodePage } from '../../main/ui/NodePage';
-//import { Browser } from 'puppeteer-core';
 
 let browser: Browser;
 let context: any;
 let pageObj: Page;
 let nodeSite1Url: string;
-
 
 test.beforeAll(async () => {
     browser = await chromium.launch({ headless: false });
@@ -21,18 +19,18 @@ test.beforeAll(async () => {
 
 // Global teardown: runs once after all tests
 test.afterAll(async () => {
-    //const endpoint = nodeSite1Url;
-   // console.log('endpoint === ', nodeSite1Url)
     await browser.close();
 });
 
 test.describe.serial('Task 1 tests', () => {
+    // Logging to Moralis Admin
     test('Login to Moralis Admin', async () => {
         const loginPage = new LoginPage(pageObj);
         const title = await loginPage.login(config.credentials.username, config.credentials.password);
         expect(title).toEqual('Moralis | The Ultimate Web3 Development Platform');
     });
 
+    //Creating node
     test('Create a Node in Moralis Admin', async () => {
         const nodePage = new NodePage(pageObj);
         nodeSite1Url = await nodePage.createNode();
@@ -40,6 +38,7 @@ test.describe.serial('Task 1 tests', () => {
         expect(nodeSite1Url).not.toBeNull();
     });
 
+    // Getting the block number
     test('Get Block Number', async () => {
         const endpoint = nodeSite1Url;
         const method = 'eth_blockNumber';
@@ -48,6 +47,7 @@ test.describe.serial('Task 1 tests', () => {
         expect(result).toBeDefined();
     });
 
+    //Getting block by number
     test('Get Block by Number', async () => {
         const endpoint = nodeSite1Url;
         const method = 'eth_getBlockByNumber';
@@ -56,6 +56,7 @@ test.describe.serial('Task 1 tests', () => {
         expect(result).toBeDefined();
     });
 
+    // Getting the transaction by Hash
     test('Get the Transaction By Hash)', async () => {
         const endpoint = nodeSite1Url;
         const method = 'eth_getTransactionByHash';

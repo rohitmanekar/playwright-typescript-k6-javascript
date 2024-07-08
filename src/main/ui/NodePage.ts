@@ -6,6 +6,13 @@ export class NodePage {
 
   async createNode() {
     await this.page.click(locators.nodePage.nodesTab);
+    const referSkp = this.page.locator('selector');
+    const count = await referSkp.count();
+    if (count > 0) {
+      await this.page.click(locators.nodePage.referSkip);
+    } else {
+        console.log('Element does not exist ', referSkp);
+    }    
     await this.page.click(locators.nodePage.createNodeButton);
     await this.page.selectOption(locators.nodePage.protocolDropdown, 'Ethereum');
     await this.page.selectOption(locators.nodePage.networkDropdown, 'Mainnet');

@@ -22,7 +22,7 @@ test.beforeAll(async () => {
 
 //teardown method for closing browser
 test.afterAll(async () => {
-    await browser.close();
+   await browser.close();
 });
 
 /**
